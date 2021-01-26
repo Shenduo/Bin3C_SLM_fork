@@ -2,7 +2,7 @@
 Deconvoluting metagenomic assemblies via Hi-C connect network
 (under construction)
 
-## Getting started
+## Installation
 ### Systems requirements
 - Docker
 - 16GB memory recommended
@@ -26,39 +26,41 @@ docker exec -it HiCBin0 sh
 ## File contents
 It is based on bin3C.
 - mer.py: 解釋...
+- hicbin.sh: 
 
-##  Typical workflow
+##  Quick start
 
 ###  Example data
 The data is from ....
 - scaffolds.fasta: 
-- S_hic2scaf.bam: 
+- S_hic2scaf.bam:
 
+###  Example usage
+There are two ways to run HiCBin: one command or step-by-step.
 - We supply a simple script to run the whole process include metagenome deconvolution and result evaluation.
 ```bash 
 # hicbin.sh <input assembled fasta> <input Hi-C bam file> <output path> <slm resolution default=25.0>
 hicbin.sh /home/vol/data/scaffolds.fasta /home/vol/data/S_hic2scaf.bam /home/vol/output 25.0
 ```
-- Or run by step-by-step.
-1. generate contact map by bin3C mkmap
-```bash 
-/home/bin3C/bin3C.py mkmap -e MluCI -e Sau3AI <input assembled fasta> <input Hi-C bam file> <output path>
-```
-2. generate connect network by bin3C function
-```bash
-/home/bin3C/map2g.py -i <input contact map> -o <output path>
-```
-3. genome binning by SLM, slm resolution now set 25.0
-```bash
-java -jar /home/bin3C/external/ModularityOptimizer.jar <input connect network> <output path/result.txt> 1 25.0 3 10 10 9001882 1
-```
-4. fasta for checkm
-```bash
-/home/bin3C/SLM2seq.py <input slm result> <input contact map> <output path>
-```
-5. checkm and calcutlate the result from checkm report
-```bash
-checkm lineage_wf -t 8 <input fasta path>  <output path>
-python3 /home/bin3C/ezcheck-full.py -f -i <input bin_stats_ext.tsv from chechm> -o <output path/ezcheck_result.csv>
-
-```
+- Step-by-step.
+  1. generate contact map by bin3C mkmap
+  ```bash 
+  /home/bin3C/bin3C.py mkmap -e MluCI -e Sau3AI <input assembled fasta> <input Hi-C bam file> <output path>
+  ```
+  2. generate connect network by bin3C function
+  ```bash
+  /home/bin3C/map2g.py -i <input contact map> -o <output path>
+  ```
+  3. genome binning by SLM, slm resolution now set 25.0
+  ```bash
+  java -jar /home/bin3C/external/ModularityOptimizer.jar <input connect network> <output path/result.txt> 1 25.0 3 10 10 9001882 1
+  ```
+  4. fasta for checkm
+  ```bash
+  /home/bin3C/SLM2seq.py <input slm result> <input contact map> <output path>
+  ```
+  5. checkm and calcutlate the result from checkm report
+  ```bash
+  checkm lineage_wf -t 8 <input fasta path>  <output path>
+  python3 /home/bin3C/ezcheck-full.py -f -i <input bin_stats_ext.tsv from chechm> -o <output path/ezcheck_result.csv>
+  ```
