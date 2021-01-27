@@ -5,8 +5,19 @@ from mzd.utils import *
 import logging
 import sys
 import os
+import argparse
 
 if __name__ == '__main__':
+
+
+	parser = argparse.ArgumentParser(description="say something about this application !!")
+	parser.add_argument("-i", "--input", type=str, help="input contact map")
+	parser.add_argument("-o", "--output", type=str, help="output edges")
+	result = parser.parse_args()
+	 
+	print result.input
+	print result.output
+	
 	logging.captureWarnings(True)
 	logger = logging.getLogger('main')
 
@@ -24,7 +35,9 @@ if __name__ == '__main__':
 	root.addHandler(ch)
 
 	# File log listens to all levels from root
-	log_path = os.path.join('/media/sf_dataset/', 'map2g.log')
+	log_path = os.path.join(result.output, 'map2g.log')
+	if not os.path.exists(result.output):
+		os.mkdir(result.output)
 	fh = logging.FileHandler(log_path, mode='a')
 	fh.setLevel(logging.DEBUG)
 	fh.setFormatter(formatter)
@@ -34,5 +47,6 @@ if __name__ == '__main__':
 	logger.debug(sys.version.replace('\n', ' '))
 	logger.debug('Command line: {}'.format(' '.join(sys.argv)))
 
-	cm = load_object('/media/sf_dataset/bin3C_scaf_S/contact_map.p.gz')
-	getGraph(cm, '/media/sf_dataset/')
+
+	cm = load_object(result.input)
+	getGraph(cm, result.output)

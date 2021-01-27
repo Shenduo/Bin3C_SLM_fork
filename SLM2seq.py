@@ -54,6 +54,8 @@ if __name__ == '__main__':
 
     # File log listens to all levels from root
 	log_path = os.path.join(args.OUTDIR, 'slm2seq.log')
+	if not os.path.exists(args.OUTDIR):
+		os.mkdir(args.OUTDIR)
 	fh = logging.FileHandler(log_path, mode='a')
 	fh.setLevel(logging.DEBUG)
 	fh.setFormatter(formatter)
@@ -78,7 +80,6 @@ if __name__ == '__main__':
 
 	clustering = getSLMresult(cm, args.CL)
 	cluster_report(cm, clustering)
-	# with open('/media/sf_dataset/compare/clusteringReport_my_2.txt','w') as clu:
-	# 	clu.write(str(clustering))
+
 	write_fasta(cm, args.OUTDIR, clustering, clobber=True, only_large=False)
 	write_report(os.path.join(args.OUTDIR, 'cluster_report.csv'), clustering)
