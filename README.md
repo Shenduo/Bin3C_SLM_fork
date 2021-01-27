@@ -6,7 +6,7 @@ Deconvoluting metagenomic assemblies via Hi-C connect network
 ### Systems requirements
 - Docker
 - 16GB memory recommended
-- 64GB memory recommended if performing CheckM
+- 40GB memory recommended if performing CheckM
 
 We use Docker to build an environment for the process.
 ```bash 
