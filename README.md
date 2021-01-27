@@ -47,7 +47,7 @@ There are two ways to run HiCBin: one command or step-by-step.
 - We supply a simple script to run the whole process include metagenome deconvolution and result evaluation.
 ```bash 
 # hicbin.sh <input assembled fasta> <input Hi-C bam file> <output path> <slm resolution default=25.0>
-hicbin.sh /home/vol/data/scaffolds.fasta /home/vol/data/S_hic2scaf.bam /home/vol/output 25.0
+hicbin.sh /home/vol/data/scaffolds.fasta /home/vol/data/merged_scaf.bam /home/vol/output 25.0
 ```
 - Step-by-step.
   1. generate contact map by bin3C mkmap
