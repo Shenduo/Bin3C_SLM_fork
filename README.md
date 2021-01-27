@@ -42,6 +42,8 @@ The example data is generated after initial process(read cleanup, shotgun assemb
 - scaffolds.fasta: from shotgun cleaned up by BBDuk from BBTools, and assembled using metaSPAdes.
 - merged_scaf.bam: merged from two bam files mapped by Hi-C read-sets using MluCI and Sau3AI.  
 
+[data download](https://drive.google.com/drive/folders/141ZTekBQ3VVy4VbDMcrz32cOqus2N0lo?usp=sharing)
+
 ###  Example usage
 There are two ways to run HiCBin: one command or step-by-step.
 - We supply a simple script to run the whole process include metagenome deconvolution and result evaluation.
