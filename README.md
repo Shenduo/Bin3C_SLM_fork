@@ -25,11 +25,11 @@ docker exec -it HiCBin0 sh
 ## File contents
 HiCBin is based on [bin3C](https://github.com/cerebis/bin3C) with addtional homemade functions to perform specific clustering and evaluation.
 - mzd/cluster.py: replace the original cluster.py of bin3C with two additional functions, getGraph() and getSLMresult()
-  + getGraph():
-  + getSLMresult():
-- map2g.py: convert seq_map to a undirected Networkx Graph using getGraph() in mzd/cluster.py
+  + getGraph(): convert seq_map to an undirected Networkx Graph using `to_Graph()` in original cluster.py of bin3C, and generate the edge file by `write_edgelist` function from networkx packages. 
+  + getSLMresult(): combining  `_read_table()` and part of `cluster_map()` function in original cluster.py of bin3C to get the sequence indices in every cluster.
+- map2g.py: get edge file from contact map file using getGraph() in mzd/cluster.py
 - SLM2seq.py: get fasta sequence of each bin using getSLMresult() in mzd/cluster.py
-- ezcheck-full.py: eavlaute the ranks (near, substantial, moderate) of the checkM result file, bin_stats_ext.tsv
+- ezcheck-full.py: evaluate the ranks (near, substantial, moderate) of the checkM result file, bin_stats_ext.tsv
 
 Docker
 - Dockerfile: for building docker image.
@@ -45,7 +45,7 @@ The original dataset derives from a human fecal sample and contains a shotgun re
 - scaffolds.fasta: shotgun reads are cleaned up by BBDuk in BBTools, and assembled using metaSPAdes.
 - [merged_scaf.bam](https://drive.google.com/file/d/14mWTpNUT7_PELF3cCjoXYTXNSHuxbXXx/view?usp=sharing): merged from two bam files mapped by MluCI and Sau3AI Hi-Cs.  
 
-[data download](https://drive.google.com/drive/folders/141ZTekBQ3VVy4VbDMcrz32cOqus2N0lo?usp=sharing)
+[data download](https://drive.google.com/file/d/1btJ4qykEJzsE1YP5IJkANp48jMWNaTzZ/view?usp=sharing)
 
 ###  Example usage
 There are two ways to run HiCBin: one command or step-by-step.
@@ -71,7 +71,7 @@ hicbin.sh /home/vol/data/scaffolds.fasta /home/vol/data/merged_scaf.bam /home/vo
   ```bash
   /home/bin3C/SLM2seq.py <input:slm result> <input:contact map> <output:path>
   ```
-  5. perform checkm and evalute performance
+  5. perform checkm and evaluate performance
   ```bash
   checkm lineage_wf -t 8 <input:fasta path>  <output:path>
   python3 /home/bin3C/ezcheck-full.py -f -i <input:bin_stats_ext.tsv from chechm> -o <output:path/ezcheck_result.csv>
