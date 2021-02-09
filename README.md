@@ -45,7 +45,7 @@ The original dataset derives from a human fecal sample and contains a shotgun re
 - scaffolds.fasta: shotgun reads are cleaned up by BBDuk in BBTools, and assembled using metaSPAdes.
 - [merged_scaf.bam](https://drive.google.com/file/d/14mWTpNUT7_PELF3cCjoXYTXNSHuxbXXx/view?usp=sharing): merged from two bam files mapped by MluCI and Sau3AI Hi-Cs.  
 
-[data download](https://drive.google.com/file/d/1btJ4qykEJzsE1YP5IJkANp48jMWNaTzZ/view?usp=sharing)
+[data download](https://drive.google.com/drive/folders/141ZTekBQ3VVy4VbDMcrz32cOqus2N0lo?usp=sharing)
 
 ###  Example usage
 There are two ways to run HiCBin: one command or step-by-step.
