@@ -26,9 +26,9 @@ docker exec -it HiCBin0 sh
 HiCBin is based on [bin3C](https://github.com/cerebis/bin3C) with addtional homemade functions to perform specific clustering and evaluation.
 - mzd/cluster.py: replace the original cluster.py of bin3C with two additional functions, getGraph() and getSLMresult()
   + getGraph(): convert seq_map to an undirected Networkx Graph using `to_Graph()` in original cluster.py of bin3C, and generate the edge file by `write_edgelist` function from networkx packages. 
-  + getSLMresult(): combining  `_read_table()` and part of `cluster_map()` function in original cluster.py of bin3C to get the sequence indices in every cluster.
-- map2g.py: get edge file from contact map file using getGraph() in mzd/cluster.py
-- SLM2seq.py: get fasta sequence of each bin using getSLMresult() in mzd/cluster.py
+  + getSLMresult(): combining  `_read_table()` and part of `cluster_map()` function in original cluster.py of bin3C to get the sequence indices of every cluster.
+- map2g.py: get an edge file from a contact map file using getGraph() in mzd/cluster.py
+- SLM2seq.py: generate the sequence fasta of each bin using getSLMresult() in mzd/cluster.py
 - ezcheck-full.py: evaluate the ranks (near, substantial, moderate) of the checkM result file, bin_stats_ext.tsv
 
 Docker
