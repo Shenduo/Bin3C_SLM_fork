@@ -1,4 +1,4 @@
-# HiCBin v0.1
+# Bin3C_SLM v0.1
 Deconvoluting metagenomic assemblies via Hi-C connect network
 
 ## Installation
@@ -9,21 +9,21 @@ Deconvoluting metagenomic assemblies via Hi-C connect network
 
 We use Docker to build an environment for the process.
 ```bash 
-git clone https://github.com/changlabtw/HiCBin.git
-cd HiCBin
+git clone https://github.com/changlabtw/Bin3C_SLM.git
+cd Bin3C_SLM
 
 # build the image 
-docker build -t HiCBin . --no-cache
+docker build -t Bin3C_SLM . --no-cache
 
 # run docker container, use volume to get data from host machine
-docker run -it -d -v <path of data from host>:/home/vol  --name HiCBin0 HiCBin
+docker run -it -d -v <path of data from host>:/home/vol  --name Bin3C_SLM0 Bin3C_SLM
 
 # get a bash shell in the container
-docker exec -it HiCBin0 sh 
+docker exec -it Bin3C_SLM0 sh 
 ```
 
 ## File contents
-HiCBin is based on [bin3C](https://github.com/cerebis/bin3C) with addtional homemade functions to perform specific clustering and evaluation.
+Bin3C_SLM is based on [bin3C](https://github.com/cerebis/bin3C) with addtional homemade functions to perform specific clustering and evaluation.
 - mzd/cluster.py: replace the original cluster.py of bin3C with two additional functions, getGraph() and getSLMresult()
   + getGraph(): convert the seq_map to an undirected Networkx Graph using `to_Graph()` in original cluster.py of bin3C, and generate the edge file by `write_edgelist` function from Networkx package. 
   + getSLMresult(): combining  `_read_table()` and part of `cluster_map()` function in original cluster.py of bin3C to get the sequence indices of every cluster.
@@ -36,7 +36,7 @@ Docker
 - requirements.txt/requirementspy3.txt: for installing required python packages during building docker image.
 
 Tool
-- hicbin.sh: a wrap-up script to run the whole process of HicBin include CheckM.
+- bin3c_slm.sh: a wrap-up script to run the whole process of Bin3C_SLM include CheckM.
 
 ##  Quick start
 
@@ -48,11 +48,11 @@ The original dataset derives from a human fecal sample and contains a shotgun re
 [data download](https://drive.google.com/drive/folders/141ZTekBQ3VVy4VbDMcrz32cOqus2N0lo?usp=sharing)
 
 ###  Example usage
-There are two ways to run HiCBin: one command or step-by-step.
+There are two ways to run Bin3C_SLM: one command or step-by-step.
 - We supply a simple script to run the whole process include metagenome deconvolution and result evaluation.
 ```bash 
-# hicbin.sh <input:assembled fasta> <input:Hi-C bam file> <output:path> <slm resolution=25.0>
-hicbin.sh /home/vol/data/scaffolds.fasta /home/vol/data/merged_scaf.bam /home/vol/output 25.0
+# bin3c_slm.sh <input:assembled fasta> <input:Hi-C bam file> <output:path> <slm resolution=25.0>
+bin3c_slm.sh /home/vol/data/scaffolds.fasta /home/vol/data/merged_scaf.bam /home/vol/output 25.0
 ```
 - Step-by-step.
   1. generate contact map

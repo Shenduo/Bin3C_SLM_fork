@@ -11,10 +11,10 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8  
 
 WORKDIR /home
-COPY . hicbin
+COPY . bin3c_slm
 
-RUN cp /home/hicbin/hicbin.sh /usr/local/bin && \
-    chmod +x /usr/local/bin/hicbin.sh
+RUN cp /home/bin3c_slm/bin3c_slm.sh /usr/local/bin && \
+    chmod +x /usr/local/bin/bin3c_slm.sh
 
 # get python, java, hmmer
 RUN apt-get install -y --no-install-recommends \
@@ -39,7 +39,7 @@ RUN apt-get install -y --no-install-recommends \
 WORKDIR /home
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools	
-RUN pip3 install -r hicbin/requirementspy3.txt
+RUN pip3 install -r bin3c_slm/requirementspy3.txt
 RUN pip3 install checkm-genome --upgrade --no-deps
 
 # Prodigal
@@ -65,9 +65,9 @@ RUN mkdir checkmdata && cd checkmdata && \
 WORKDIR /home
 RUN python -m pip install --upgrade pip
 RUN pip install --upgrade setuptools
-RUN pip install -r hicbin/requirements.txt
+RUN pip install -r bin3c_slm/requirements.txt
 
 
 # get bin3C
 RUN git clone https://github.com/cerebis/bin3C.git && \
-    cp -r /home/hicbin/* /home/bin3C/ 
+    cp -r /home/bin3c_slm/* /home/bin3C/ 
