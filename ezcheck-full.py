@@ -66,7 +66,7 @@ else:
 # Near Completeness>=90, Contamination<=5
 mask1 = df['Completeness']>=90 
 mask2 = df['Contamination']<=5
-near = len(df[(mask1 & mask2)])
+df.loc[(mask1 & mask2), 'Rank'] = 'near'
 
 
 
@@ -75,7 +75,7 @@ mask1 = df['Completeness']>=70
 mask2 = df['Completeness']<90 
 mask3 = df['Contamination']>5
 mask4 = df['Contamination']<=10
-sub = len(df[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4))])
+df.loc[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4)), 'Rank'] = 'substantial'
 
 
 # Moderate 70>Completeness>=50, 10<Contamination<=15
@@ -83,11 +83,16 @@ mask1 = df['Completeness']>=50
 mask2 = df['Completeness']<70 
 mask3 = df['Contamination']>10
 mask4 = df['Contamination']<=15
-mod = len(df[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4))])
+df.loc[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4)), 'Rank'] = 'moderate'
 
+#Partial Completeness<50, Contamination>15 (remaining bins)
+mask1 = df['Completeness']<50 
+mask2 = df['Contamination']>15
+df.loc[(mask1 | mask2), 'Rank'] = 'partial'
 
 # output the results
-print('total:', len(df))
-print('Near:', near)
-print('Substantial:', sub)
-print('Moderate:', mod)
+print('Total:', len(df))
+print('Near:', len(df[df['Rank'] == 'near']))
+print('Substantial:', len(df[df['Rank'] == 'substantial']))
+print('Moderate:', len(df[df['Rank'] == 'moderate']))
+print('Partial:', len(df[df['Rank'] == 'partial']))
