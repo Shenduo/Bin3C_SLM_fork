@@ -85,14 +85,35 @@ mask3 = df['Contamination']>10
 mask4 = df['Contamination']<=15
 df.loc[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4)), 'Rank'] = 'moderate'
 
-#Partial Completeness<50, Contamination>15 (remaining bins)
+# Partial Completeness<50, Contamination>15 (remaining bins)
 mask1 = df['Completeness']<50 
 mask2 = df['Contamination']>15
 df.loc[(mask1 | mask2), 'Rank'] = 'partial'
 
-# output the results
-print('Total:', len(df))
-print('Near:', len(df[df['Rank'] == 'near']))
-print('Substantial:', len(df[df['Rank'] == 'substantial']))
-print('Moderate:', len(df[df['Rank'] == 'moderate']))
-print('Partial:', len(df[df['Rank'] == 'partial']))
+# Rank counts
+total_count = len(df) 
+near_count = len(df[df['Rank'] == 'near'])
+sub_count = len(df[df['Rank'] == 'substantial']) 
+mod_count = len(df[df['Rank'] == 'moderate']) 
+par_count = len(df[df['Rank'] == 'partial']) 
+
+# output rank counts
+print('Total:', total_count)
+print('Near:', near_count)
+print('Substantial:', sub_count)
+print('Moderate:', mod_count)
+print('Partial:', par_count)
+
+# Create dict containing rank counts for csv summary
+rank_summary = {
+        'Rank':  ['Total', 'Near', 'Substantial', 'Moderate', 'Partial'],
+        'Count':  [total_count, near_count, sub_count, mod_count, par_count]
+}
+
+# convert dict to df
+rank_summary_df = pd.DataFrame(rank_summary)
+
+# save rank_summary to csv
+if args.output:
+    summary_outpath = os.path.splitext(args.output)[0] + "_rank_summary.csv"
+    rank_summary_df.to_csv(summary_outpath, index=False)
