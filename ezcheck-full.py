@@ -9,7 +9,7 @@ from ast import literal_eval
 import sys
 import argparse
 import os
-
+import matplotlib.pyplot as plt
 
 
 
@@ -119,3 +119,28 @@ rank_summary_df = pd.DataFrame(rank_summary)
 if args.output:
     summary_outpath = os.path.splitext(args.output)[0] + "_rank_summary.csv"
     rank_summary_df.to_csv(summary_outpath, index=False)
+
+
+# VISUALIZATION
+
+def plot_rank_distribution(df):
+    """ Plot the distribution of rank categories in a horizontal bar stacked bar chart """
+
+    colors = {
+            'near': 'green',
+            'substantial': 'blue',
+            'moderate': 'yellow',
+            'partial': 'red'
+    }
+
+    plt.figure(figsize=(10, 2))
+    
+    for i, row in df.iterrows():
+        rank = row['Rank']
+        color = colors[rank]
+        plt.barh(y=0, width=1, left = i, color=color, align='edge', linewidth=0.15, edgecolor='black')
+
+    plt.show()
+
+
+plot_rank_distribution(df)
