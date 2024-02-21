@@ -49,12 +49,6 @@ elif args.FullTree:
     # combine the array to 'df' dataframe
     df_tep = pd.DataFrame(list_tep, columns=needcol)
     df = pd.concat([df, df_tep], axis=1)
-    # if output path exist save 'df' dataframe
-    if args.output:
-        outpath, outfile = os.path.split(args.output)
-        if not os.path.isdir(outpath):
-            os.mkdir(outpath)
-        df.to_csv(args.output, index=False)
 elif filepath[-1] == 'tsv':
     df = pd.read_csv(args.path, sep='\t')
 else:
@@ -89,6 +83,14 @@ df.loc[((mask1 & mask2 & mask4)|(mask1 & mask3 & mask4)), 'Rank'] = 'moderate'
 mask1 = df['Completeness']<50 
 mask2 = df['Contamination']>15
 df.loc[(mask1 | mask2), 'Rank'] = 'partial'
+
+# if output path exist save 'df' dataframe
+if args.output:
+    outpath, outfile = os.path.split(args.output)
+    if not os.path.isdir(outpath):
+        os.mkdir(outpath)
+    df.to_csv(args.output, index=False)
+
 
 # Rank counts
 total_count = len(df) 
