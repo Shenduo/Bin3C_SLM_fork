@@ -127,19 +127,33 @@ def plot_rank_distribution(df):
     """ Plot the distribution of rank categories in a horizontal bar stacked bar chart """
 
     colors = {
-            'near': 'green',
-            'substantial': 'blue',
-            'moderate': 'yellow',
-            'partial': 'red'
+            'near': (0.449368, 0.813768, 0.335384, 1.0),
+            'substantial': (0.120638, 0.625828, 0.533488, 1.0),
+            'moderate': (0.188923, 0.41091, 0.556326, 1.0),
+            'partial': (0.281412, 0.155834, 0.469201, 1.0)
     }
 
-    plt.figure(figsize=(10, 2))
-    
+    plt.figure(figsize=(10, 1))
+   
+    #loop through rows in df and plot each bin's rank with respective color
     for i, row in df.iterrows():
         rank = row['Rank']
         color = colors[rank]
-        plt.barh(y=0, width=1, left = i, color=color, align='edge', linewidth=0.15, edgecolor='black')
+        plt.barh(y=0, width=1, left=i, color=color, align='edge', linewidth=0.15, edgecolor='black')
+    
+    #plot invisible bars for each color for legend
+    for label, color in colors.items():
+            plt.bar(0,0, color=color, label=label)
 
+    plt.legend(ncol=4, loc='upper center', bbox_to_anchor=(0.5, -0.05))
+    plt.subplots_adjust(bottom=0.4)
+    plt.axis('off')
+    
+    #if -o was provided save plot to file
+    if args.output:
+        plot_outpath = os.path.splitext(args.output)[0] + "_rank_distribution.png"
+        plt.savefig(plot_outpath, dpi=300)
+    
     plt.show()
 
 
