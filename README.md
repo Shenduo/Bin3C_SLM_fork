@@ -1,79 +1,46 @@
-# Bin3C_SLM v0.1
-Deconvoluting metagenomic assemblies via Hi-C connect network
+# Bin3C_SLM v0.1 (`ezcheck-full_visual` Branch)
 
-## Installation
-### Systems requirements
-- Docker
-- 16GB memory recommended
-- 40GB memory recommended if performing CheckM
+This repository is a fork of the original Bin3C_SLM tool, designed for deconvoluting metagenomic assemblies via Hi-C connect networks. This specific branch, `ezcheck-full_visual`, introduces new functionality to the `ezcheck-full.py` script, specifically adding visualization and data output features for analyzing quality rankings derived from CheckM results. These additions aim to provide users with new ways to interpret and understand their data, complementing the existing capabilities of the Bin3C_SLM tool.
 
-We use Docker to build an environment for the process.
-```bash 
-git clone https://github.com/changlabtw/Bin3C_SLM.git
-cd Bin3C_SLM
+## Added Functionality to ezcheck-full.py
 
-# build the image 
-docker build -t Bin3C_SLM . --no-cache
+### New Features:
 
-# run docker container, use volume to get data from host machine
-docker run -it -d -v <path of data from host>:/home/vol  --name Bin3C_SLM0 Bin3C_SLM
+- **CSV Summary Output**: Support for saving a summary of the quality rank distribution to a CSV file.
+- **Visualization Capability**: A new feature allowing users to graphically represent the distribution of quality ranks.
+- **Extended Quality Ranks**: Introduction of an additional rank category, "partial" to the existing quality ranks.
 
-# get a bash shell in the container
-docker exec -it Bin3C_SLM0 sh 
+## Original Features, Installation and Requirements
+
+For detailed information on the core functionalities of the Bin3C_SLM tool, please refer to the [original repository](https://github.com/changlabtw/Bin3C_SLM). The installation process and system requirements are consistent with the original Bin3C_SLM tool. Note any additional usage details for the new features in this branch here.
+
+## Usage
+
+The updated `ezcheck-full.py` script now produces three distinct output files, adding new functionality for the analysis of CheckM quality rankings and introducing visualization capabilities.
+
+### Running the Script
+
+Execute the `ezcheck-full.py` script using the following command in the terminal, specifying the input file and the output path where the script will save the generated files. Replace `<input_file>` with the path to your `bin_stats_ext.tsv` file from CheckM, and `<output_path>` with the desired directory and filename prefix for the output files.
+
+
+```bash
+`# To run the script, use the following command format: 
+python3 ezcheck-full.py -f -i <input_file> -o <output_path>
+# Example: python3 /home/bin3C/ezcheck-full.py -f -i /data/bin_stats_ext.tsv -o /results/ezcheck_result`
 ```
 
-## File contents
-Bin3C_SLM is based on [bin3C](https://github.com/cerebis/bin3C) with addtional homemade functions to perform specific clustering and evaluation.
-- mzd/cluster.py: replace the original cluster.py of bin3C with two additional functions, getGraph() and getSLMresult()
-  + getGraph(): convert the seq_map to an undirected Networkx Graph using `to_Graph()` in original cluster.py of bin3C, and generate the edge file by `write_edgelist` function from Networkx package. 
-  + getSLMresult(): combining  `_read_table()` and part of `cluster_map()` function in original cluster.py of bin3C to get the sequence indices of every cluster.
-- map2g.py: get an edge file from a contact map file using getGraph() in mzd/cluster.py
-- SLM2seq.py: generate the sequence fasta of each bin using getSLMresult() in mzd/cluster.py
-- ezcheck-full.py: evaluate the ranks (near, substantial, moderate) of the checkM result file, bin_stats_ext.tsv
+### Output Files
 
-Docker
-- Dockerfile: for building docker image.
-- requirements.txt/requirementspy3.txt: for installing required python packages during building docker image.
+the script generates the following files in the specified output directory:
 
-Tool
-- bin3c_slm.sh: a wrap-up script to run the whole process of Bin3C_SLM include CheckM.
+1. **CheckM Report CSV** (`<output_path>.csv`): Contains the detailed CheckM report for each bin, including the newly introduced "partial" quality rank
+    
+2. **Rank Summary CSV** (`<output_path>_rank_summary.csv`): Lists the count of bins classified into each quality rank category: Near, Substantial, Moderate, and Partial, providing a quick overview of the quality distribution
+    
+3. **Rank Distribution Visualization** (`<output_path>_rank_distribution.png`): Visualizes the distribution of quality ranks across all bins
 
-##  Quick start
+![Rank Distribution Visualization](./Images/ezcheckm_result_rank_distribution.png)
 
-###  Example data
-The original dataset derives from a human fecal sample and contains a shotgun read-set ([SRR6131123](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR6131123)), and two separated Hi-C read-sets produced using two restriction enzymes MluCI ([SRR6131122](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR6131122)) and Sau3AI ([SRR6131123](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR6131123)). The following example data is generated after initial process. 
-- scaffolds.fasta: shotgun reads are cleaned up by BBDuk in BBTools, and assembled using metaSPAdes.
-- [merged_scaf.bam](https://drive.google.com/file/d/14mWTpNUT7_PELF3cCjoXYTXNSHuxbXXx/view?usp=sharing): merged from two bam files mapped by MluCI and Sau3AI Hi-Cs.  
+## Acknowledgments
 
-[data download](https://drive.google.com/drive/folders/141ZTekBQ3VVy4VbDMcrz32cOqus2N0lo?usp=sharing)
-
-###  Example usage
-There are two ways to run Bin3C_SLM: one command or step-by-step.
-- We supply a simple script to run the whole process include metagenome deconvolution and result evaluation.
-```bash 
-# bin3c_slm.sh <input:assembled fasta> <input:Hi-C bam file> <output:path> <slm resolution=25.0>
-bin3c_slm.sh /home/vol/data/scaffolds.fasta /home/vol/data/merged_scaf.bam /home/vol/output 25.0
-```
-- Step-by-step.
-  1. generate contact map
-  ```bash 
-  /home/bin3C/bin3C.py mkmap -e MluCI -e Sau3AI <input:assembled fasta> <input:Hi-C bam file> <output:path>
-  ```
-  2. generate connect network
-  ```bash
-  /home/bin3C/map2g.py -i <input:contact map> -o <output:path>
-  ```
-  3. genome binning
-  ```bash
-  java -jar /home/bin3C/external/ModularityOptimizer.jar <input:connect network> <output:path/result.txt> 1 25.0 3 10 10 9001882 1
-  ```
-  4. get fasta seqs based on binning
-  ```bash
-  /home/bin3C/SLM2seq.py <input:slm result> <input:contact map> <output:path>
-  ```
-  5. perform checkm and evaluate performance
-  ```bash
-  checkm lineage_wf -t 8 <input:fasta path>  <output:path>
-  python3 /home/bin3C/ezcheck-full.py -f -i <input:bin_stats_ext.tsv from chechm> -o <output:path/ezcheck_result.csv>
-  ```
-
+This project builds upon the original Bin3C_SLM tool developed by [changlabtw](https://github.com/changlabtw). I express my gratitude for their foundational work and the to the authors of [bin3C](https://github.com/cerebis/bin3C).
