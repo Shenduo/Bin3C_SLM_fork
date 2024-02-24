@@ -1,6 +1,10 @@
 # Bin3C_SLM v0.1
 Deconvoluting metagenomic assemblies via Hi-C connect network
 
+## Note
+
+This fork introduces additional functionality to the `ezcheck-full.py` script, with a focus on new visualization and data output features. These added features are currently available in the `ezcheck-full_visual` branch of this repository. Please make sure you are in the correct branch to access these features.
+
 ## Installation
 ### Systems requirements
 - Docker
