@@ -1,6 +1,6 @@
 # Bin3C_SLM v0.1 (`ezcheck-full_visual` Branch)
 
-This repository is a fork of the original Bin3C_SLM tool, designed for deconvoluting metagenomic assemblies via Hi-C connect networks. This specific branch, `ezcheck-full_visual`, introduces new functionality to the `ezcheck-full.py` script, specifically adding visualization and data output features for analyzing quality rankings derived from CheckM results. These additions aim to provide users with new ways to interpret and understand their data, complementing the existing capabilities of the Bin3C_SLM tool.
+This repository is a fork of [Bin3C_SLM](https://github.com/changlabtw/Bin3C_SLM), designed for deconvoluting metagenomic assemblies via Hi-C connect networks. This specific branch, `ezcheck-full_visual`, introduces new functionality to the `ezcheck-full.py` script, specifically adding visualization and data output features for analyzing quality rankings derived from CheckM results. These additions aim to provide users with new ways to interpret and understand their data, complementing the existing capabilities of Bin3C_SLM.
 
 ## Added Functionality to ezcheck-full.py
 
@@ -12,7 +12,7 @@ This repository is a fork of the original Bin3C_SLM tool, designed for deconvolu
 
 ## Original Features, Installation and Requirements
 
-For detailed information on the core functionalities of the Bin3C_SLM tool, please refer to the [original repository](https://github.com/changlabtw/Bin3C_SLM). The installation process and system requirements are consistent with the original Bin3C_SLM tool. Note any additional usage details for the new features in this branch here.
+For detailed information on the core functionalities of Bin3C_SLM, please refer to the [original repository](https://github.com/changlabtw/Bin3C_SLM). The installation process and system requirements are consistent with the original Bin3C_SLM. Note any additional usage details for the new features in this branch here.
 
 ## Usage
 
@@ -25,8 +25,8 @@ Execute the `ezcheck-full.py` script using the following command in the terminal
 
 ```bash
 `# To run the script, use the following command format: 
-python3 ezcheck-full.py -f -i <input_file> -o <output_path>
-# Example: python3 /home/bin3C/ezcheck-full.py -f -i /data/bin_stats_ext.tsv -o /results/ezcheck_result`
+python3 ezcheck-full.py -f -i <input_file> -o <output_path/outfile.csv>
+# Example: python3 /home/bin3C/ezcheck-full.py -f -i /data/bin_stats_ext.tsv -o /results/ezcheck_result.csv`
 ```
 
 ### Output Files
