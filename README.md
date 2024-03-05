@@ -54,6 +54,10 @@ The script generates the following files in the specified output directory:
 3. **Rank Distribution Visualization** (`<output_path>_rank_distribution.png`): Visualizes the distribution of quality ranks across all bins
 
 ![Rank Distribution Visualization](./Images/ezcheckm_result_rank_distribution.png)
+_Figure 1: Rank distribution visualization without genome size filtering._
+
+![Rank Distribution Visualization ≥500kbp](Images/ezcheckm_result_rank_distribution_500kbp.png)
+_Figure 2: Rank distribution visualization with genome size filtering applied (≥500kbp)._
 
 ## Acknowledgments
 
