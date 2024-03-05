@@ -4,7 +4,6 @@
 
 
 import pandas as pd
-import numpy as np
 from ast import literal_eval
 import sys
 import argparse
@@ -19,6 +18,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--input", dest="path", help="Input CheckM summary table. Must be .tsv or .csv")
 parser.add_argument("-f", "--FullTree", action="store_true", help="Full Tree CheckM summary table or not.")
 parser.add_argument("-o", "--output", default="", help="Store Full Tree CheckM summary table as normal format, and output to the target path.")
+parser.add_argument("--visualize", action="store_true", help="Generate and save visualizations.")
+parser.add_argument("-b", "--include-biological-genome-stats", action="store_true", help="Include biological genome statistics from the CheckM report in the output")
 args = parser.parse_args()
 
 
@@ -41,6 +42,8 @@ elif args.FullTree:
     df = pd.DataFrame(data=d)
     # get the needed values in the second column of 'df_f', and reconstruct them to a len(row)*12 array
     needcol = ['marker lineage', '# genomes', '# markers', '# marker sets', '0', '1', '2', '3', '4', '5+', 'Completeness', 'Contamination']
+    if args.include_biological_genome_stats:
+        needcol += ['GC', 'GC std', 'Genome size', '# ambiguous bases', '# scaffolds', '# contigs', 'Longest scaffold', 'Longest contig', 'N50 (scaffolds)', 'N50 (contigs)', 'Mean scaffold length', 'Mean contig length', 'Coding density', 'Translation table', '# predicted genes']
     list_tep = []
     for i in range(len(df_f)):
         dic = literal_eval(df_f[1][i])
@@ -133,7 +136,7 @@ def plot_rank_distribution(df):
             'partial': (0.281412, 0.155834, 0.469201, 1.0)
     }
 
-    plt.figure(figsize=(10, 1))
+    plt.figure(figsize=(8, 1))
    
     #loop through rows in df and plot each bin's rank with respective color
     for i, row in df.iterrows():
@@ -156,5 +159,5 @@ def plot_rank_distribution(df):
     
     plt.show()
 
-
-plot_rank_distribution(df)
+if args.visualize:
+    plot_rank_distribution(df)
