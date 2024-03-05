@@ -22,6 +22,9 @@ The updated `ezcheck-full.py` script now produces three distinct output files, a
 
 ### Running the Script
 
+![Usage Example](Images/ezcheck-full_usage_example.gif)
+
+
 Execute the `ezcheck-full.py` script using the following command in the terminal, specifying the input file and the output path and filename where the script will save the generated report, summary, and visualization files. Replace `<input_file>` with the path to your `bin_stats_ext.tsv` file from CheckM, and `<output_path/outfile.csv>` with the full path and filename for the output files.
 
 
