@@ -20,6 +20,7 @@ parser.add_argument("-f", "--FullTree", action="store_true", help="Full Tree Che
 parser.add_argument("-o", "--output", default="", help="Store Full Tree CheckM summary table as normal format, and output to the target path.")
 parser.add_argument("--visualize", action="store_true", help="Generate and save visualizations.")
 parser.add_argument("-b", "--include-biological-genome-stats", action="store_true", help="Include biological genome statistics from the CheckM report in the output")
+parser.add_argument("--min-genome-size", type=int, default=0, help="Minimum genome size (in bp) to include in the analysis. Default is 0 (include all)")
 args = parser.parse_args()
 
 
@@ -57,7 +58,9 @@ elif filepath[-1] == 'tsv':
 else:
     df = pd.read_csv(args.path)
 
-
+# Filter the df based on the minimum genome size argument
+if args.min_genome_size > 0:
+    df = df[df["Genome size"] > args.min_genome_size]
 
 
 # Near Completeness>=90, Contamination<=5
