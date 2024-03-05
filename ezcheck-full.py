@@ -42,6 +42,12 @@ parser.add_argument(
     action="store_true",
     help="Include biological genome statistics from the CheckM report in the output",
 )
+parser.add_argument(
+    "--min-genome-size",
+    type=int,
+    default=0,
+    help="Minimum genome size (in bp) to include in the analysis. Default is 0 (include all)",
+)
 args = parser.parse_args()
 
 
@@ -106,12 +112,15 @@ elif filepath[-1] == "tsv":
 else:
     df = pd.read_csv(args.path)
 
+# Filter the df based on the minimum genome size argument
+if args.min_genome_size > 0:
+    df = df[df["Genome size"] > args.min_genome_size]
+
 
 # Near Completeness>=90, Contamination<=5
 mask1 = df["Completeness"] >= 90
 mask2 = df["Contamination"] <= 5
 df.loc[(mask1 & mask2), "Rank"] = "near"
-
 
 # Substantial 90>Completeness>=70, 5<Contamination<=10
 mask1 = df["Completeness"] >= 70
@@ -119,7 +128,6 @@ mask2 = df["Completeness"] < 90
 mask3 = df["Contamination"] > 5
 mask4 = df["Contamination"] <= 10
 df.loc[((mask1 & mask2 & mask4) | (mask1 & mask3 & mask4)), "Rank"] = "substantial"
-
 
 # Moderate 70>Completeness>=50, 10<Contamination<=15
 mask1 = df["Completeness"] >= 50
